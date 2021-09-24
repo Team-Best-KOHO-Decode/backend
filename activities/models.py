@@ -6,14 +6,17 @@ class Activity(models.Model):
     name = models.CharField(max_length=255)
     cost = models.IntegerField()
     description = models.TextField()
-    rating = models.IntegerField()
+    image = models.CharField(max_length=2000)
+    address = models.CharField(max_length=500)
+   # lat_long = models.CharField()
 
     def turn_to_json(self):
         res = {
                 'name': self.name,
                 'cost': self.cost,
                 'description': self.description,
-                'rating': self.rating,
+                'image': self.image,
+                'address': self.address,
+                #'lat_long': self.lat_long,
                 }
         return res
-
