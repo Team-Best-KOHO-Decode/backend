@@ -12,7 +12,7 @@ def index(request):
 def get_group_name(request, group_name):
     if request.method == 'GET':
         try:
-            group = Group.objects.filter(name="GROUP A").first()
+            group = Group.objects.filter(name="GROUP B").first()
             expectedGroup = Group.objects.all()[0]
             
             response = json.dumps([{'Group': expectedGroup.name + group.name}])
@@ -28,9 +28,7 @@ def add_group(request):
         group = Group(name=gName)
         try:
             group.save()
-            s = Group.objects.get(name=gName)
-
-            response = json.dumps([{'Success': 'Group created successfully' + s}])
+            response = json.dumps([{'Success': 'Group created successfully'}])
         except:
             response = json.dumps([{'Error': group.name}])
         return HttpResponse(response, content_type='text/json')
