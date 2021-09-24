@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from group.models import Group
+import uuid
 
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -23,8 +24,8 @@ def create_group(request):
     if request.method == 'POST':
         payload = json.loads(request.body)
         group_name_input = payload["group_name"]
-        print(group_name_input)
-        createdGroup = Group(name = group_name_input, events = "[]")
+        joinCode = uuid.uuid4().hex[:5].upper()
+        createdGroup = Group(name = group_name_input, events = "[]", join_code = joinCode)
         try:
             createdGroup.save()
             response = json.dumps({'group_id': createdGroup.id, 'group_name': createdGroup.name, 'group_join_code': createdGroup.join_code, 'group_events': stringToList(createdGroup.events)})
