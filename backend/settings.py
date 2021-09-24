@@ -80,9 +80,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+            'ENGINE': 'djongo',
+            'NAME': 'cluster0',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://KoHo_Admin:TeamBest12@cluster0.mfo2s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+            }  
+        }
 }
 
 

@@ -5,5 +5,8 @@ import uuid
 class Group(models.Model):
     name = models.CharField(max_length=200)
     join_code = uuid.uuid4().hex[:6].upper()
-    events = [""]
+    # # TODO add refrence to events
+    # events = [""]
+    # # TODO add refrence to users
+    # users = [""]
     
