@@ -35,5 +35,11 @@ class Events(models.Model):
 #class = SQL table
 #instance of class = entry in the table
 
-event1 = Event(name = "Bowling", cost = 2)
+event1 = Events(name = "Biking", cost = 1)
 event1.save()
+
+event2 = Events(name = "Bowling", cost = 2)
+event2.save()
+
+event3 = Events(name = "Trip to Vegas", cost = 3)
+event3.save()
