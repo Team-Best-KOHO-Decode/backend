@@ -12,10 +12,9 @@ def index(request):
 def get_group_name(request, group_name):
     if request.method == 'GET':
         try:
-            group = Group.objects.filter(name="GROUP B").first()
-            expectedGroup = Group.objects.all()[0]
+            group = Group.objects.filter(name=group_name).first()
             
-            response = json.dumps([{'Group': expectedGroup.name + group.name}])
+            response = json.dumps([{'Group': group.name}])
         except Exception as e:
             response = json.dumps([{'Error': str(e)}])
     return HttpResponse(response, content_type='text/json')
