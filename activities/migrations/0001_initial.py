@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('group', '0002_group_name'),
     ]
 
     operations = [
