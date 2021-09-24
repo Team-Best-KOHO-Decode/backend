@@ -65,11 +65,17 @@ def select_activities(request):
     if request.method == 'PUT':
         payload = json.loads(request.body)
         event = Event.objects.get(pk=ObjectId(payload['event_id']))
+        print(event.activities)
         event_activities = json.loads(event.activities)
         activities = payload['activities']
         for activity in activities:
-            event_activities[activity] += 1
+            if str(activity) not in event_activities:
+                event_activities[str(activity)] = 1
+            else:
+                event_activities[str(activity)] += 1
+            print(str(activity), event_activities)
         
+        event.activities = json.dumps(event_activities)
         event.save()
 
         res = {}
