@@ -8,3 +8,11 @@ class Event(models.Model):
     cost = models.IntegerField()
     description = models.TextField()
 
+    def turn_to_json(self):
+        res = {
+                'name': self.name,
+                'cost': self.cost,
+                'description': self.description
+                }
+        return res
+

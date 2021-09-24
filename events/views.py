@@ -14,11 +14,7 @@ def get_events(request, group_id):
             events = Event.objects.filter(group_id=group_id).iterator()
             response = []
             for event in events:
-                temp = {
-                        'name': event.name,
-                        'cost': event.cost,
-                        'description': event.description
-                        }
+                temp = event.turn_to_json()
                 response.append(temp)
             response = json.dumps(response) 
         except Exception as e:
