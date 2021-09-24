@@ -13,8 +13,8 @@ from bson import ObjectId
 def get_event_by_id(request, event_id):
     if request.method == 'GET':
         try:
-            event = Event.objects.get(pk=ObjectId(event_id))
-            response = json.dumps({'event_id': str(event._id), 'event_name': event.name, 'budget': event.budget, 'activities': event.activities})
+            getEvent = Event.objects.get(pk=ObjectId(event_id))
+            response = json.dumps({'event_id': str(getEvent._id), 'event_name': getEvent.name, 'budget': getEvent.budget, 'activities': getEvent.activities})
         except Exception as e:
             response = json.dumps({'Error': str(e)})
         return HttpResponse(response, content_type='text/json')
@@ -29,17 +29,17 @@ def create_event(request):
             event_budget = payload["event_budget"]
         else:
             event_budget = 1
-        event = Event(name = event_name_input, budget = event_budget, activities = "{}")
+        createdEvent = Event(name = event_name_input, budget = event_budget, activities = "{}")
         try:
-            event.save()
+            createdEvent.save()
 
             group = Group.objects.get(id=group_id_input)
             eventList = literal_eval(group.events)
-            eventList.append(event._id)
+            eventList.append(createdEvent._id)
             group.events = str(list(dict.fromkeys(eventList)))
             group.save()
-            activities = event.get_sorted_activities()
-            response = json.dumps({'event_id': str(event._id), 'event_name': event.name, 'budget': event.budget, 'activities': activities})
+            activities = createdEvent.get_sorted_activities()
+            response = json.dumps({'event_id': str(createdEvent._id), 'event_name': createdEvent.name, 'budget': createdEvent.budget, 'activities': activities})
         except Exception as e:
             response = json.dumps({'Error': str(e)})
         return HttpResponse(response, content_type='text/json')
@@ -50,11 +50,11 @@ def update_event_budget(request):
         payload = json.loads(request.body)
         event_id = ObjectId(payload["event_id"])
         event_budget = payload["event_budget"]
-        event = Event.objects.get(pk=event_id)
-        event.budget = event_budget
+        updatedEvent = Event.objects.get(pk=event_id)
+        updatedEvent.budget = event_budget
         try:
-            event.save()
-            response = json.dumps({'event_id': str(event.pk), 'event_name': event.name, 'budget': event.budget, 'activities': event.get_sorted_activities()})
+            updatedEvent.save()
+            response = json.dumps({'event_id': str(updatedEvent.pk), 'event_name': updatedEvent.name, 'budget': updatedEvent.budget, 'activities': updatedEvent.get_sorted_activities()})
         except Exception as e:
 
             response = json.dumps({'Error': str(e)})
@@ -64,25 +64,23 @@ def update_event_budget(request):
 def select_activities(request):
     if request.method == 'PUT':
         payload = json.loads(request.body)
-        event = Event.objects.get(pk=ObjectId(payload['event_id']))
-        print(event.activities)
-        event_activities = json.loads(event.activities)
+        updatedEvent = Event.objects.get(pk=ObjectId(payload['event_id']))
+        event_activities = json.loads(updatedEvent.activities)
         activities = payload['activities']
         for activity in activities:
             if str(activity) not in event_activities:
                 event_activities[str(activity)] = 1
             else:
                 event_activities[str(activity)] += 1
-            print(str(activity), event_activities)
         
-        event.activities = json.dumps(event_activities)
-        event.save()
+        updatedEvent.activities = json.dumps(event_activities)
+        updatedEvent.save()
 
         res = {}
         res['event_id'] = payload['event_id']
-        res['event_name'] = event.name
+        res['event_name'] = updatedEvent.name
         
-        heap = event.get_sorted_activities()
+        heap = updatedEvent.get_sorted_activities()
 
         res['activities'] = heap
 

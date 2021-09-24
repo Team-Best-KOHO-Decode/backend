@@ -12,22 +12,22 @@ def index(request):
 def get_group_by_id(request, group_id):
     if request.method == 'GET':
         try:
-            group = Group.objects.get(id=group_id)
-            response = json.dumps({'group_id': group.id, 'group_name': group.name, 'group_join_code': group.join_code, 'group_events': stringToList(group.events)})
+            getGroup = Group.objects.get(id=group_id)
+            response = json.dumps({'group_id': getGroup.id, 'group_name': getGroup.name, 'group_join_code': getGroup.join_code, 'group_events': stringToList(getGroup.events)})
         except Exception as e:
             response = json.dumps({'Error': str(e)})
-        return HttpResponse(response, content_type='text/json')
+    return HttpResponse(response, content_type='text/json')
 
 @csrf_exempt
 def create_group(request):
     if request.method == 'POST':
         payload = json.loads(request.body)
         group_name_input = payload["group_name"]
-        group = Group(name = group_name_input, events = "[]")
+        print(group_name_input)
+        createdGroup = Group(name = group_name_input, events = "[]")
         try:
-            group.save()
-            print()
-            response = json.dumps({'group_id': group.id, 'group_name': group.name, 'group_join_code': group.join_code, 'group_events': stringToList(group.events)})
+            createdGroup.save()
+            response = json.dumps({'group_id': createdGroup.id, 'group_name': createdGroup.name, 'group_join_code': createdGroup.join_code, 'group_events': stringToList(createdGroup.events)})
         except Exception as e:
             response = json.dumps([{'Error': str(e)}])
         return HttpResponse(response, content_type='text/json')

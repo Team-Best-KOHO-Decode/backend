@@ -14,8 +14,8 @@ def get_events(request):
         try:
             activities = Activity.objects.all().iterator()
             response = []
-            for activity in activities:
-                temp = activity.turn_to_json()
+            for getActivity in activities:
+                temp = getActivity.turn_to_json()
                 response.append(temp)
             response = json.dumps(response) 
         except Exception as e:
@@ -27,8 +27,8 @@ def get_events_by_budget(request, budget):
         try:
             activities = Activity.objects.filter(cost__lte=budget).iterator()
             response = []
-            for activity in activities:
-                temp = activity.turn_to_json()
+            for getActivity in activities:
+                temp = getActivity.turn_to_json()
                 response.append(temp)
             response = json.dumps(response) 
         except Exception as e:
