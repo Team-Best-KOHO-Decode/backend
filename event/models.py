@@ -1,10 +1,13 @@
 from django.db import models
+import json
+import heapq
 
 # Create your models here.
 class Event(models.Model):
     event_id = models.IntegerField()
     name = models.CharField(max_length=200)
     activities = models.CharField(max_length=9000)
+    # Activities is a dictionary { 'activity_id': vote_count }
     budget = models.IntegerField(default=1)
 
 
@@ -15,3 +18,14 @@ class Event(models.Model):
         else:
             eventExists = Event.objects.filter(event_id=self.event_id)
             eventExists.update(budget = self.budget)
+    
+    def get_sorted_activities(self):
+        '''
+        Returns a sorted list (vote_number, activity_id)
+        '''
+        heap = []
+        activities_dict = json.loads(self.activities)
+        for activity in activities_dict:
+            heapq.heappush(heap, (activities_dict[activity], activity))
+
+        return heap

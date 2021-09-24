@@ -5,6 +5,7 @@ from group.models import Group
 import json
 from django.views.decorators.csrf import csrf_exempt
 from ast import literal_eval
+import heapq
 # Create your views here.
 
 @csrf_exempt
@@ -58,6 +59,29 @@ def update_event_budget(request):
             response = json.dumps({'Error': str(e)})
         return HttpResponse(response, content_type='text/json')
 
+@csrf_exempt
+def select_activities(request):
+    if request.method == 'PUT':
+        payload = json.loads(request.body)
+        event = Event.objects.get(pk=payload['event_id'])
+        event_activities = json.loads(event.activities)
+        activities = payload['activities']
+        for activity in activities:
+            event_activities[activity] += 1
+        
+        event.save()
+
+        res = {}
+        res['event_id'] = payload['event_id']
+        res['event_name'] = event.name
+        
+        heap = event.get_sorted_activities()
+
+        res['activities'] = heap
+
+        response = json.dumps(res)
+
+        return HttpResponse(response, content_type='text/json')
 
 
 
