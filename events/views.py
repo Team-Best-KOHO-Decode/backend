@@ -8,10 +8,10 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-def get_events(request, group_id):
+def get_events(request):
     if request.method == 'GET':
         try:
-            events = Event.objects.filter(group_id=group_id).iterator()
+            events = Event.objects.all().iterator()
             response = []
             for event in events:
                 temp = event.turn_to_json()
