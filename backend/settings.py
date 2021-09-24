@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3aoo-$je0l2^b#69a&i4uibfzf-$%qkw+rl&0c1jwles8gy4z-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['bohobackend.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['bohobackend.herokuapp.com', '127.0.0.1', '8080']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'group',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
