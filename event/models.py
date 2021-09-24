@@ -1,16 +1,16 @@
-from django.db import models
+from djongo import models
 import json
 import heapq
 
 # Create your models here.
 class Event(models.Model):
-    event_id = models.IntegerField()
+    _id = models.ObjectIdField(primary_key=True)
     name = models.CharField(max_length=200)
     activities = models.CharField(max_length=9000)
     # Activities is a dictionary { 'activity_id': vote_count }
     budget = models.IntegerField(default=1)
 
-
+    '''
     def save(self):
         if self._state.adding:
             self.event_id = Event.objects.all().count() + 1
@@ -18,7 +18,8 @@ class Event(models.Model):
         else:
             eventExists = Event.objects.filter(event_id=self.event_id)
             eventExists.update(budget = self.budget)
-    
+    '''
+
     def get_sorted_activities(self):
         '''
         Returns a sorted list (vote_number, activity_id)
