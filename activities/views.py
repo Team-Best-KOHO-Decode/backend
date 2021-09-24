@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from events.models import Event
+from activities.models import Activity
 from group.models import Group
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -11,10 +11,10 @@ from django.views.decorators.csrf import csrf_exempt
 def get_events(request):
     if request.method == 'GET':
         try:
-            events = Event.objects.all().iterator()
+            activities = Activity.objects.all().iterator()
             response = []
-            for event in events:
-                temp = event.turn_to_json()
+            for activity in activities:
+                temp = activity.turn_to_json()
                 response.append(temp)
             response = json.dumps(response) 
         except Exception as e:
