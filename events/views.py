@@ -20,7 +20,7 @@ def get_events(request, group_id):
                         'description': event.description
                         }
                 response.append(temp)
-           response = json.dumps(response) 
+            response = json.dumps(response) 
         except Exception as e:
             response = json.dumps([{'Error': str(e)}])
     return HttpResponse(response, content_type='text/json')
